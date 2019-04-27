@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
 
-const C = require('./constants')
+const C = require('../constants')
 const Lot = require('./lot')
+const debug = require('debug')('deltachat:message')
 
 /**
  * Helper class for message states so you can do e.g.
@@ -11,6 +12,7 @@ const Lot = require('./lot')
  */
 class MessageState {
   constructor (state, binding) {
+    debug(`MessageState constructor ${state}`)
     this.state = state
     this.binding = binding
   }
@@ -56,6 +58,7 @@ class MessageState {
  */
 class MessageViewType {
   constructor (viewType) {
+    debug(`MessageViewType constructor ${viewType}`)
     this.viewType = viewType
   }
 
@@ -93,10 +96,12 @@ class MessageViewType {
  */
 class Message {
   constructor (dc_msg) {
+    debug('Message constructor')
     this.dc_msg = dc_msg
   }
 
   toJson () {
+    debug('toJson')
     return {
       chatId: this.getChatId(),
       duration: this.getDuration(),
@@ -104,10 +109,13 @@ class Message {
       fromId: this.getFromId(),
       id: this.getId(),
       receivedTimestamp: this.getReceivedTimestamp(),
+      sortTimestamp: this.getSortTimestamp(),
       text: this.getText(),
       timestamp: this.getTimestamp(),
+      hasLocation: this.hasLocation(),
       viewType: this.binding.dc_msg_get_viewtype(this.dc_msg),
       state: this.binding.dc_msg_get_state(this.dc_msg),
+      hasDeviatingTimestamp: this.hasDeviatingTimestamp(),
       showPadlock: this.getShowpadlock(),
       summary: this.getSummary().toJson(),
       isSetupmessage: this.isSetupmessage(),
@@ -164,6 +172,10 @@ class Message {
     return Boolean(this.binding.dc_msg_get_showpadlock(this.dc_msg))
   }
 
+  getSortTimestamp () {
+    return this.binding.dc_msg_get_sort_timestamp(this.dc_msg)
+  }
+
   getState () {
     return new MessageState(this.binding.dc_msg_get_state(this.dc_msg))
   }
@@ -192,6 +204,14 @@ class Message {
 
   getWidth () {
     return this.binding.dc_msg_get_width(this.dc_msg)
+  }
+
+  hasDeviatingTimestamp () {
+    return this.binding.dc_msg_has_deviating_timestamp(this.dc_msg)
+  }
+
+  hasLocation () {
+    return Boolean(this.binding.dc_msg_has_location(this.dc_msg))
   }
 
   isDeadDrop () {
@@ -239,6 +259,11 @@ class Message {
   setFile (file, mime) {
     if (typeof file !== 'string') throw new Error('Missing filename')
     this.binding.dc_msg_set_file(this.dc_msg, file, mime || '')
+    return this
+  }
+
+  setLocation (longitude, latitude) {
+    this.binding.dc_msg_set_location(this.dc_msg, longitude, latitude)
     return this
   }
 

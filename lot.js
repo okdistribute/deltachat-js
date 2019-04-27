@@ -1,15 +1,19 @@
 /* eslint-disable camelcase */
 
+const debug = require('debug')('deltachat:lot')
+
 /**
  * Wrapper around dc_lot_t*
  */
 class Lot {
   constructor (dc_lot, binding) {
+    debug('Lot constructor')
     this.dc_lot = dc_lot
     this.binding = binding
   }
 
   toJson () {
+    debug('toJson')
     return {
       state: this.getState(),
       text1: this.getText1(),

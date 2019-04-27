@@ -1,15 +1,19 @@
 /* eslint-disable camelcase */
 
+const debug = require('debug')('deltachat:chat')
+
 /**
  * Wrapper around dc_chat_t*
  */
 class Chat {
   constructor (dc_chat, binding) {
+    debug('Chat constructor')
     this.dc_chat = dc_chat
     this.binding = binding
   }
 
   toJson () {
+    debug('toJson')
     return {
       archived: this.getArchived(),
       color: this.getColor(),
