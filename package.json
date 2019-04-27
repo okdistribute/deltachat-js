@@ -1,0 +1,42 @@
+{
+  "name": "deltachat-js",
+  "version": "0.28",
+  "description": "abstract js bindings for deltachat-core",
+  "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage-html-report": "rm -rf coverage/ && nyc report --reporter=html && opn coverage/index.html",
+    "dependency-check": "dependency-check package.json --missing --unused -i dependency-check -i nyc -i opn-cli -i standard -i napi-macros -i coveralls --entry index.js --entry test/index.js --entry scripts/*.js",
+    "test": "standard && npm run dependency-check && nyc node test/index.js",
+    "reset": "rm -rf node_modules/ build/ prebuilds/ deltachat-core/"
+  },
+  "homepage": "https://github.com/deltachat/deltachat-node",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deltachat/deltachat-node.git"
+  },
+  "engines": {
+    "node": ">=8.6.0"
+  },
+  "license": "GPL-3.0",
+  "dependencies": {
+    "debug": "^4.0.0",
+    "got": "^9.2.2",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.2"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.2",
+    "dependency-check": "^3.2.0",
+    "ghreleases": "^3.0.1",
+    "node-abi": "^2.5.0",
+    "nyc": "^12.0.2",
+    "opn-cli": "^4.0.0",
+    "prebuildify": "^2.9.1",
+    "split2": "^3.0.0",
+    "standard": "^12.0.0",
+    "tape": "^4.9.1",
+    "tar": "^4.4.8",
+    "tempy": "^0.2.1",
+    "version-changed": "^1.1.0"
+  }
+}
