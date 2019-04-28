@@ -21,6 +21,7 @@
   "dependencies": {
     "debug": "^4.0.0",
     "got": "^9.2.2",
+    "lodash.pick": "^4.4.0",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2"
   },
