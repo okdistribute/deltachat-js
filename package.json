@@ -1,6 +1,6 @@
 {
   "name": "deltachat-js",
-  "version": "0.28",
+  "version": "0.28.0",
   "description": "abstract js bindings for deltachat-core",
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",
